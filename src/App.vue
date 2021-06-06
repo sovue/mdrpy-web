@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       source:
-        '# День 1\n\n  а Привет\n\n  - Привет\n\n    с Привет\n\n  - Привет, Алиса\n\n    с Привет, Алиса\n\n  $nvl\n\n  NVL mode active\n\n  $adv\n\n  ADV mode active',
+        '# День 1\n\n  а Привет\n\n  - Привет\n\n    с Привет\n\n  - Привет, Алиса\n\n    с Привет, Алиса\n\n  $nvl\n\n  NVL mode active\n\n  $nvlc\n\n  Cleared nvl content\n\n  $adv\n\n  ADV mode active',
       rpy: '',
       indentLevel: 0,
       options: {
@@ -131,6 +131,11 @@ export default {
               switch (cmd) {
                 case 'nvl': {
                   this.rpy += '$ set_mode_nvl()'
+
+                  break
+                }
+                case 'nvlc': {
+                  this.rpy += `nvl clear`
 
                   break
                 }
