@@ -90,17 +90,26 @@ export default {
           case 'inline': {
             this.rpy += this.indent()
 
-            const [id, text] = content.split(' - ')
-            this.rpy += `${
-              text
-                ? `${
-                    Object.keys(this.options.characters).find(
-                      (item) =>
-                        this.options.characters[item] === id.toLowerCase()
-                    ) || id
-                  } "${text}"`
-                : `"${id}"`
-            }`
+            // Limit occurence to only first ' - '
+            const [id, text] = content.split(' - ', 1)
+            const charKeys = Object.keys(this.options.characters)
+            // If might have character id and text
+            if (text) {
+              // If has known character id
+              // return ${id} "${text}"
+              if (
+                (charKeys + Object.values(this.options.characters)).includes(id)
+              ) {
+                this.rpy += `${id} "${text}"`
+              }
+              // If doesn't have known charater id
+              // return full content
+              else {
+                this.rpy += `"${content}"`
+              }
+            } else {
+              this.rpy += `"${content}"`
+            }
 
             this.rpy += '\n'
 
