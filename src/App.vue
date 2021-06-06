@@ -28,7 +28,7 @@
           wordWrap: 'on',
         }"
       />
-      <prism language="renpy" class="flex-1">
+      <prism language="renpy" class="max-h-400px">
         {{ rpy }}
       </prism>
     </div>
@@ -125,22 +125,33 @@ export default {
           case 'inline': {
             this.rpy += this.indent()
 
-            // Limit occurence to only first ' - '
-            const [id, text] = content.split(' - ', 1)
+            let [id, ...text] = content.split(' - ')
+            text = text.join(' - ') // Limit occurence to only first ' - '
+
             const charKeys = Object.keys(this.options.characters)
+
             // If might have character id and text
             if (text) {
+              id = id.toLowerCase()
+
               // If has known character id
               // return ${id} "${text}"
               if (
-                (charKeys + Object.values(this.options.characters)).includes(id)
+                charKeys
+                  .concat(Object.values(this.options.characters))
+                  .includes(id)
               ) {
-                this.rpy += `${id} "${text}"`
+                const foundId =
+                  charKeys.find(
+                    (item) => this.options.characters[item] === id
+                  ) || id
+
+                this.rpy += `${foundId} "${text}"`
               }
               // If doesn't have known charater id
               // return full content
               else {
-                this.rpy += `"${content}"`
+                this.rpy += `"${text}"`
               }
             } else {
               this.rpy += `"${content}"`
@@ -183,3 +194,10 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+code[class*='language-'],
+pre[class*='language-'] {
+  white-space: pre-wrap;
+}
+</style>
