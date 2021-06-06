@@ -1,8 +1,13 @@
 <template>
   <div id="app">
-    <div class="w-full flex justify-around">
-      <textarea v-model="source" class="w-full" @input="parse" />
-      <textarea v-model="rpy" class="w-full" readonly />
+    <div class="flex justify-around p-5 gap-5">
+      <textarea
+        v-model="source"
+        @input="parse"
+        class="px-1 py-3 h-full w-full"
+        :style="{ height: '500px' }"
+      />
+      <textarea v-model="rpy" class="px-1 py-3 w-full" readonly />
     </div>
   </div>
 </template>
@@ -19,6 +24,16 @@ export default {
       source: '# label_name',
       rpy: '',
       indentLevel: 0,
+      options: {
+        characters: {
+          mt: 'од',
+          me: 'с',
+          dv: 'а',
+          sl: 'сл',
+          sh: 'ш',
+          us: 'у',
+        },
+      },
     }
   },
   computed: {
@@ -35,6 +50,7 @@ export default {
       let line = 0
 
       this.rpy = ''
+      this.indentLevel = 0
 
       for (line; line < ast.length; line += 1) {
         const { type } = ast[line]
@@ -75,7 +91,16 @@ export default {
             this.rpy += this.indent()
 
             const [id, text] = content.split(' - ')
-            this.rpy += `${text ? `${id} "${text}"` : `"${id}"`}`
+            this.rpy += `${
+              text
+                ? `${
+                    Object.keys(this.options.characters).find(
+                      (item) =>
+                        this.options.characters[item] === id.toLowerCase()
+                    ) || id
+                  } "${text}"`
+                : `"${id}"`
+            }`
 
             this.rpy += '\n'
 
