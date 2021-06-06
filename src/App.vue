@@ -46,6 +46,14 @@ const translit = new CyrillicToTranslit({
   preset: 'ru',
 })
 
+function trimWords(str) {
+  return str
+    .split(' ')
+    .map((word) => word.trim())
+    .filter(Boolean) // Filter empty strings
+    .join(' ')
+}
+
 export default {
   name: 'App',
   components: {
@@ -88,8 +96,10 @@ export default {
       this.indentLevel = 0
 
       for (line; line < ast.length; line += 1) {
-        const { type } = ast[line]
-        let content = ast[line].content.trim()
+        const { type, content: rawContent } = ast[line]
+
+        let [content, ...inlineComment] = trimWords(rawContent).split('#')
+        inlineComment = inlineComment.join('#') // Only first occurence is a comment
 
         switch (type) {
           case 'heading_open': {
@@ -115,7 +125,15 @@ export default {
           case 'list_item_open': {
             this.rpy += this.indent()
 
-            this.rpy += `"${ast[(line += 2)].content}":\n`
+            let [choiceContent, ...inlineComment] =
+              ast[(line += 2)].content.split('#')
+            inlineComment = inlineComment.join('#')
+            // Trimming words and handling inline comments
+            // here since we're getting the content only
+            // here, skipping it in the loop (line += 2)
+            this.rpy += `"${choiceContent.trim()}":${
+              inlineComment ? ` # ${inlineComment.trim()}` : ''
+            }\n`
 
             this.indentLevel += 1
 
@@ -179,7 +197,7 @@ export default {
               }
             }
 
-            this.rpy += '\n'
+            this.rpy += `${inlineComment ? ` # ${inlineComment}` : ''}\n`
 
             break
           }
