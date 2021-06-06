@@ -67,7 +67,7 @@ export default {
       indentLevel: 0,
       options: {
         syntax: {
-          break: '\\',
+          ignore: '\\',
           commands: {
             trigger: '!',
           },
@@ -104,11 +104,11 @@ export default {
         let { type, content: rawContent } = ast[line]
         rawContent = trimWords(rawContent)
 
-        if (rawContent.startsWith(this.options.syntax.break)) {
+        if (rawContent.startsWith(this.options.syntax.ignore)) {
           this.rpy += this.indent()
 
           this.rpy += `${rawContent
-            .replace(this.options.syntax.break, '')
+            .replace(this.options.syntax.ignore, '')
             .trim()}\n`
 
           continue
