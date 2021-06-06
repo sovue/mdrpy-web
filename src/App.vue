@@ -62,11 +62,16 @@ export default {
   },
   data() {
     return {
-      source:
-        '# День 1\n\n  а Привет\n\n  - Привет\n\n    с Привет\n\n  - Привет, Алиса\n\n    с Привет, Алиса\n\n  $nvl\n\n  NVL mode active\n\n  $nvlc\n\n  Cleared nvl content\n\n  $adv\n\n  ADV mode active',
+      source: `# День 1\n\n  а Привет\n\n  - Привет\n\n    с Привет\n\n  - Привет, Алиса\n\n    с Привет, Алиса\n\n  !nvl\n\n  NVL mode active\n\n  !nvlc\n\n  Cleared nvl content\n\n  !adv\n\n  ADV mode active`,
       rpy: '',
       indentLevel: 0,
       options: {
+        syntax: {
+          break: '\\',
+          commands: {
+            trigger: '!',
+          },
+        },
         characters: {
           mt: 'од',
           me: 'с',
@@ -100,6 +105,16 @@ export default {
 
         let [content, ...inlineComment] = trimWords(rawContent).split('#')
         inlineComment = inlineComment.join('#') // Only first occurence is a comment
+
+        if (content.startsWith(this.options.syntax.break)) {
+          this.rpy += this.indent()
+
+          this.rpy += `${content
+            .replace(this.options.syntax.break, '')
+            .trim()}\n`
+
+          continue
+        }
 
         switch (type) {
           case 'heading_open': {
@@ -146,7 +161,7 @@ export default {
           case 'inline': {
             this.rpy += this.indent()
 
-            if (content.startsWith('$')) {
+            if (content.startsWith(this.options.syntax.commands.trigger)) {
               const cmd = content.slice(1)
 
               switch (cmd) {
