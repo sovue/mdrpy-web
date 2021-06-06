@@ -62,7 +62,7 @@ export default {
   },
   data() {
     return {
-      source: `# День 1\n\n  а Привет\n\n  - Привет\n\n    с Привет\n\n  - Привет, Алиса\n\n    с Привет, Алиса\n\n  !nvl\n\n  NVL mode active\n\n  !nvlc\n\n  Cleared nvl content\n\n  !adv\n\n  ADV mode active`,
+      source: `# День 1\n\n  а Привет\n\n  - Привет\n\n    с Привет\n\n  - Привет, Алиса\n\n    с Привет, Алиса\n\n  !nvl\n\n  NVL mode active\n\n  !nvlc\n\n  Cleared nvl content\n\n  !adv\n\n  ADV mode active\n\n  \\ "Эта строка НЕ будет обрабатываться и пойдёт в код как есть"\n\n  \\ $ print('Python') # Полезно при использовании собственных функций`,
       rpy: '',
       indentLevel: 0,
       options: {
@@ -101,20 +101,21 @@ export default {
       this.indentLevel = 0
 
       for (line; line < ast.length; line += 1) {
-        const { type, content: rawContent } = ast[line]
+        let { type, content: rawContent } = ast[line]
+        rawContent = trimWords(rawContent)
 
-        let [content, ...inlineComment] = trimWords(rawContent).split('#')
-        inlineComment = inlineComment.join('#') // Only first occurence is a comment
-
-        if (content.startsWith(this.options.syntax.break)) {
+        if (rawContent.startsWith(this.options.syntax.break)) {
           this.rpy += this.indent()
 
-          this.rpy += `${content
+          this.rpy += `${rawContent
             .replace(this.options.syntax.break, '')
             .trim()}\n`
 
           continue
         }
+
+        let [content, ...inlineComment] = rawContent.split('#')
+        inlineComment = inlineComment.join('#') // Only first occurence is a comment
 
         switch (type) {
           case 'heading_open': {
