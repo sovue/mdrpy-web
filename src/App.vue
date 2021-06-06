@@ -216,7 +216,7 @@ export default {
               }
             }
 
-            this.rpy += `${inlineComment ? ` # ${inlineComment}` : ''}\n`
+            this.rpy += `${inlineComment ? ` # ${inlineComment.trim()}` : ''}\n`
 
             break
           }
