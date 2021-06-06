@@ -58,7 +58,7 @@ export default {
 
         switch (type) {
           case 'heading_open': {
-            this.rpy += `label ${ast[++line].content}:`
+            this.rpy += `label ${translit.transform(ast[++line].content, '_')}:`
 
             this.rpy += '\n'
 
