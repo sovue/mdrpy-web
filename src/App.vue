@@ -142,7 +142,7 @@ export default {
               }
             } else {
               let [id, ...text] = content.split(' ')
-              text = text.join(' ') // Limit occurence to only first ' - '
+              text = text.join(' ').trim() // Limit occurence to only first ' - '
 
               const charKeys = Object.keys(this.options.characters)
 
