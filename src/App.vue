@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       source:
-        '# День 1\n\n  а - Привет\n\n  - Привет\n\n    с - Привет\n\n  - Привет, Алиса\n\n    с - Привет, Алиса',
+        '# День 1\n\n  а Привет\n\n  - Привет\n\n    с Привет\n\n  - Привет, Алиса\n\n    с Привет, Алиса\n\n  $nvl\n\n  NVL mode active\n\n  $adv\n\n  ADV mode active',
       rpy: '',
       indentLevel: 0,
       options: {
@@ -125,36 +125,53 @@ export default {
           case 'inline': {
             this.rpy += this.indent()
 
-            let [id, ...text] = content.split(' - ')
-            text = text.join(' - ') // Limit occurence to only first ' - '
+            if (content.startsWith('$')) {
+              const cmd = content.slice(1)
 
-            const charKeys = Object.keys(this.options.characters)
+              switch (cmd) {
+                case 'nvl': {
+                  this.rpy += '$ set_mode_nvl()'
 
-            // If might have character id and text
-            if (text) {
-              id = id.toLowerCase()
+                  break
+                }
+                case 'adv': {
+                  this.rpy += '$ set_mode_adv()'
 
-              // If has known character id
-              // return ${id} "${text}"
-              if (
-                charKeys
-                  .concat(Object.values(this.options.characters))
-                  .includes(id)
-              ) {
-                const foundId =
-                  charKeys.find(
-                    (item) => this.options.characters[item] === id
-                  ) || id
-
-                this.rpy += `${foundId} "${text}"`
-              }
-              // If doesn't have known charater id
-              // return full content
-              else {
-                this.rpy += `"${text}"`
+                  break
+                }
               }
             } else {
-              this.rpy += `"${content}"`
+              let [id, ...text] = content.split(' ')
+              text = text.join(' ') // Limit occurence to only first ' - '
+
+              const charKeys = Object.keys(this.options.characters)
+
+              // If might have character id and text
+              if (text) {
+                id = id.toLowerCase()
+
+                // If has known character id
+                // return ${id} "${text}"
+                if (
+                  charKeys
+                    .concat(Object.values(this.options.characters))
+                    .includes(id)
+                ) {
+                  const foundId =
+                    charKeys.find(
+                      (item) => this.options.characters[item] === id
+                    ) || id
+
+                  this.rpy += `${foundId} "${text}"`
+                }
+                // If doesn't have known charater id
+                // return full content
+                else {
+                  this.rpy += `"${content}"`
+                }
+              } else {
+                this.rpy += `"${content}"`
+              }
             }
 
             this.rpy += '\n'
