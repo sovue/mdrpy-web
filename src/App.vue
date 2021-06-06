@@ -1,27 +1,61 @@
 <template>
   <div id="app">
-    <div class="flex justify-around p-5 gap-5">
-      <textarea
+    <div class="flex-col align-center p-5 gap-5">
+      <MonacoEditor
+        class="w-full min-h-500px"
         v-model="source"
-        @input="parse"
-        class="px-1 py-3 h-full w-full"
-        :style="{ height: '500px' }"
+        @change="parse"
+        language="markdown"
+        :options="{
+          theme: 'vs-dark',
+          automaticLayout: true,
+          lightbulb: { enabled: false },
+          minimap: { enabled: false },
+          renderWhitespace: 'boundary',
+          renderFinalNewline: true,
+          renderIndentGuides: true,
+          codeLens: false,
+          copyWithSyntaxHighlighting: false,
+          cursorBlinking: 'smooth',
+          dragAndDrop: false,
+          fontFamily: 'JetBrains Mono',
+          fontSize: 16,
+          fontWeight: 300,
+          letterSpacing: 1.5,
+          lineHeight: 30,
+          tabSize: 2,
+          inDiffEditor: false,
+          wordWrap: 'on',
+        }"
       />
-      <textarea v-model="rpy" class="px-1 py-3 w-full" readonly />
+      <prism language="renpy" class="flex-1">
+        {{ rpy }}
+      </prism>
     </div>
   </div>
 </template>
 
 <script>
 import MdIt from 'markdown-it'
+import Prism from 'vue-prism-component'
+import CyrillicToTranslit from 'cyrillic-to-translit-js'
+import MonacoEditor from 'vue-monaco'
 
 const md = new MdIt('commonmark')
+const translit = new CyrillicToTranslit({
+  preset: 'ru',
+})
 
 export default {
   name: 'App',
+  components: {
+    Prism,
+    MonacoEditor,
+  },
   data() {
     return {
-      source: '# label_name',
+      source:
+        '# День 1\n\n  а - Привет\n\n  - Привет\n\n    с - Привет\n\n  - Привет, Алиса\n\n    с - Привет, Алиса',
       rpy: '',
       indentLevel: 0,
       options: {
@@ -32,16 +66,17 @@ export default {
           sl: 'сл',
           sh: 'ш',
           us: 'у',
+          un: 'л',
         },
       },
     }
   },
   computed: {
     ast() {
-      return md.parse(this.source)
+      return md.parse(this.source, { references: {} })
     },
   },
-  created() {
+  async created() {
     this.parse()
   },
   methods: {
