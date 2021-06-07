@@ -4,6 +4,7 @@ import trimWords from './utils/trimWords'
 import indent from './utils/indent'
 import exInlineComments from './utils/extractInlineComments'
 import setTime from './utils/setTime'
+import getCmd from './utils/getCmd'
 
 const translit = new CyrillicToTranslit({
   preset: 'ru',
@@ -67,7 +68,7 @@ export default function (ast, options) {
               )
 
               if (content.startsWith(options.syntax.commands.trigger)) {
-                const cmd = content.slice(1)
+                const [cmd, cmdOptions] = getCmd(content)
 
                 switch (cmd) {
                   case options.syntax.commands.nvl: {
@@ -102,6 +103,19 @@ export default function (ast, options) {
                   }
                   case options.syntax.commands.nightTime: {
                     rpy += setTime('night')
+
+                    break
+                  }
+                  case options.syntax.commands.backdropMonitor: {
+                    const [monitor] = cmdOptions
+
+                    if (['un', 'us', 'sl', 'dv', undefined].includes(monitor)) {
+                      rpy += `$ backdrop = ${options.quotes}${
+                        monitor || 'days'
+                      }${options.quotes}`
+                    } else {
+                      continue
+                    }
 
                     break
                   }
