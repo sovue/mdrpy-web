@@ -32,7 +32,7 @@
         </div>
       </details>
     </div>
-    <splitpanes class="default-theme flex h-80vh" @resize="configureEditorSize">
+    <splitpanes class="default-theme h-80vh" @resize="configureEditorSize">
       <pane min-size="40" size="50">
         <MonacoEditor
           ref="editor"
@@ -63,7 +63,7 @@
           }"
         />
       </pane>
-      <pane size="50">
+      <pane size="50" class="overflow-y-auto">
         <prism language="renpy">
           {{ rpy }}
         </prism>
@@ -99,6 +99,7 @@ export default {
       indentLevel: 0,
       options: {
         characterDelim: ' ',
+        quotes: '"',
         syntax: {
           ignore: '\\',
           commands: {
@@ -151,7 +152,7 @@ export default {
 code,
 pre {
   &[class*='language-'] {
-    white-space: pre-wrap;
+    white-space: pre-wrap !important;
   }
 }
 </style>

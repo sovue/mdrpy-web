@@ -102,15 +102,15 @@ export default function (ast, options) {
                         (item) => options.characters[item] === id
                       ) || id
 
-                    rpy += `${foundId} "${text}"`
+                    rpy += `${foundId} ${options.quotes}${text}${options.quotes}`
                   }
                   // If doesn't have known charater id
                   // return full content
                   else {
-                    rpy += `"${content}"`
+                    rpy += `${options.quotes}${content}${options.quotes}`
                   }
                 } else {
-                  rpy += `"${content}"`
+                  rpy += `${options.quotes}${content}${options.quotes}`
                 }
               }
 
@@ -163,7 +163,7 @@ export default function (ast, options) {
           let [choiceContent, inlineComment] = exInlineComments(
             ast[(line += 2)].content
           )
-          rpy += `"${choiceContent}":${
+          rpy += `${options.quotes}${choiceContent}${options.quotes}:${
             inlineComment ? ` # ${inlineComment}` : ''
           }\n`
 
