@@ -32,15 +32,11 @@
         </div>
       </details>
     </div>
-    <splitpanes
-      class="default-theme"
-      @ready="configureEditorSize"
-      @resize="configureEditorSize"
-    >
-      <pane min-size="50" size="60">
+    <splitpanes class="default-theme flex h-80vh" @resize="configureEditorSize">
+      <pane min-size="40" size="50">
         <MonacoEditor
           ref="editor"
-          class="w-full h-80vh"
+          class="w-full h-full"
           v-model="source"
           @change="parse"
           language="markdown"
@@ -67,8 +63,8 @@
           }"
         />
       </pane>
-      <pane>
-        <prism language="renpy" class="h-full">
+      <pane size="50">
+        <prism language="renpy">
           {{ rpy }}
         </prism>
       </pane>
