@@ -110,7 +110,7 @@ export default function (ast, options) {
                 }
               } else {
                 let [id, ...text] = content.split(options.characterDelim)
-                text = text.join(options.characterDelim).trim() // Limit occurence to only first ' - '
+                text = text.join(options.characterDelim).trim() // Limit occurence to only first delim
 
                 const charKeys = Object.keys(options.characters)
 
