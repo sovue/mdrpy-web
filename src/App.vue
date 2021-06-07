@@ -36,7 +36,10 @@
         </div>
       </details>
     </div>
-    <splitpanes class="default-theme h-80vh" @resize="configureEditorSize">
+    <splitpanes
+      class="default-theme py-5 px-3 h-80vh"
+      @resize="configureEditorSize"
+    >
       <pane min-size="40" size="50">
         <MonacoEditor
           ref="editor"
