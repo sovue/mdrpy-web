@@ -3,7 +3,7 @@
     <div class="py-5 px-3 text-center">
       <details class="cursor-pointer">
         <summary>Настройки</summary>
-        <div class="flex items-center justify-around flex-wrap py-2 px-1">
+        <div class="flex items-center justify-around flex-wrap py-2 px-1 gap-3">
           <div class="flex items-center gap-3">
             <label>Разделитель реплик персонажей:</label>
             <input v-model="options.characterDelim" type="text" />
@@ -15,6 +15,19 @@
           <div class="flex items-center gap-3">
             <label>Знак ввода команд компилятора:</label>
             <input v-model="options.syntax.commands.trigger" type="text" />
+          </div>
+          <div>
+            <label>Замена ID персонажей:</label>
+            <ul>
+              <li
+                v-for="(character, index) in Object.keys(options.characters)"
+                :key="index"
+                class="flex items-center justify-between gap-1"
+              >
+                <label>{{ character }}:</label>
+                <input v-model="options.characters[character]" type="text" />
+              </li>
+            </ul>
           </div>
         </div>
       </details>
