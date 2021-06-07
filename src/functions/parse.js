@@ -60,6 +60,11 @@ export default function (ast, options) {
 
           switch (child.type) {
             case 'text': {
+              content = content.replace(
+                new RegExp(`${options.quotes}`, 'g'),
+                `\\${options.quotes}`
+              )
+
               if (content.startsWith(options.syntax.commands.trigger)) {
                 const cmd = content.slice(1)
 
