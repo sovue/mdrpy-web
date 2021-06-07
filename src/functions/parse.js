@@ -3,7 +3,6 @@ import CyrillicToTranslit from 'cyrillic-to-translit-js'
 import trimWords from './utils/trimWords'
 import indent from './utils/indent'
 import exInlineComments from './utils/extractInlineComments'
-import setTime from './utils/setTime'
 import getCmd from './utils/getCmd'
 
 const translit = new CyrillicToTranslit({
@@ -86,23 +85,12 @@ export default function (ast, options) {
 
                     break
                   }
-                  case options.syntax.commands.prologTime: {
-                    rpy += setTime('prolog')
+                  case options.syntax.commands.time: {
+                    const [time] = cmdOptions
 
-                    break
-                  }
-                  case options.syntax.commands.dayTime: {
-                    rpy += setTime('day')
-
-                    break
-                  }
-                  case options.syntax.commands.sunsetTime: {
-                    rpy += setTime('sunset')
-
-                    break
-                  }
-                  case options.syntax.commands.nightTime: {
-                    rpy += setTime('night')
+                    if (['prolog', 'day', 'sunset', 'night'].includes(time)) {
+                      rpy += `$ ${time}_time()`
+                    }
 
                     break
                   }
