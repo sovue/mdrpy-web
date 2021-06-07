@@ -38,21 +38,11 @@
 <script>
 import MdIt from 'markdown-it'
 import Prism from 'vue-prism-component'
-import CyrillicToTranslit from 'cyrillic-to-translit-js'
 import MonacoEditor from 'vue-monaco'
 
-const md = new MdIt('commonmark')
-const translit = new CyrillicToTranslit({
-  preset: 'ru',
-})
+import parse from './functions/parse'
 
-function trimWords(str) {
-  return str
-    .split(' ')
-    .map((word) => word.trim())
-    .filter(Boolean) // Filter empty strings
-    .join(' ')
-}
+const md = new MdIt('commonmark')
 
 export default {
   name: 'App',
@@ -94,156 +84,7 @@ export default {
   },
   methods: {
     parse() {
-      const ast = this.ast
-      let line = 0
-
-      this.rpy = ''
-      this.indentLevel = 0
-
-      for (line; line < ast.length; line += 1) {
-        let { type, content: rawContent } = ast[line]
-        rawContent = trimWords(rawContent)
-
-        if (rawContent.startsWith(this.options.syntax.ignore)) {
-          this.rpy += this.indent()
-
-          this.rpy += `${rawContent
-            .replace(this.options.syntax.ignore, '')
-            .trim()}\n`
-
-          continue
-        }
-
-        let [content, ...inlineComment] = rawContent.split('#')
-        inlineComment = inlineComment.join('#') // Only first occurence is a comment
-
-        switch (type) {
-          case 'heading_open': {
-            this.rpy += `${line === 0 ? '' : '\n'}label ${translit.transform(
-              ast[++line].content,
-              '_'
-            )}:`
-
-            this.rpy += '\n'
-
-            this.indentLevel += 1
-
-            break
-          }
-
-          case 'bullet_list_open': {
-            this.rpy += this.indent()
-
-            this.rpy += 'menu:\n'
-
-            this.indentLevel += 1
-
-            break
-          }
-
-          case 'list_item_open': {
-            this.rpy += this.indent()
-
-            let [choiceContent, ...inlineComment] =
-              ast[(line += 2)].content.split('#')
-            inlineComment = inlineComment.join('#')
-            // Trimming words and handling inline comments
-            // here since we're getting the content only
-            // here, skipping it in the loop (line += 2)
-            this.rpy += `"${choiceContent.trim()}":${
-              inlineComment ? ` # ${inlineComment.trim()}` : ''
-            }\n`
-
-            this.indentLevel += 1
-
-            break
-          }
-
-          case 'inline': {
-            this.rpy += this.indent()
-
-            if (content.startsWith(this.options.syntax.commands.trigger)) {
-              const cmd = content.slice(1)
-
-              switch (cmd) {
-                case 'nvl': {
-                  this.rpy += '$ set_mode_nvl()'
-
-                  break
-                }
-                case 'nvlc': {
-                  this.rpy += `nvl clear`
-
-                  break
-                }
-                case 'adv': {
-                  this.rpy += '$ set_mode_adv()'
-
-                  break
-                }
-              }
-            } else {
-              let [id, ...text] = content.split(' ')
-              text = text.join(' ').trim() // Limit occurence to only first ' - '
-
-              const charKeys = Object.keys(this.options.characters)
-
-              // If might have character id and text
-              if (text) {
-                id = id.toLowerCase()
-
-                // If has known character id
-                // return ${id} "${text}"
-                if (
-                  charKeys
-                    .concat(Object.values(this.options.characters))
-                    .includes(id)
-                ) {
-                  const foundId =
-                    charKeys.find(
-                      (item) => this.options.characters[item] === id
-                    ) || id
-
-                  this.rpy += `${foundId} "${text}"`
-                }
-                // If doesn't have known charater id
-                // return full content
-                else {
-                  this.rpy += `"${content}"`
-                }
-              } else {
-                this.rpy += `"${content}"`
-              }
-            }
-
-            this.rpy += `${inlineComment ? ` # ${inlineComment.trim()}` : ''}\n`
-
-            break
-          }
-
-          case 'list_item_close': {
-            this.indentLevel -= 1
-
-            break
-          }
-
-          case 'bullet_list_close': {
-            this.indentLevel -= 1
-
-            break
-          }
-
-          case 'html_block': {
-            this.rpy += this.indent()
-
-            this.rpy += content.replace('<!--', '#').replace('-->', '').trim()
-
-            this.rpy += '\n'
-
-            break
-          }
-        }
-      }
+      this.rpy = parse(this.ast, this.options)
     },
     indent() {
       return Array(this.indentLevel * 4)
