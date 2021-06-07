@@ -16,6 +16,10 @@
             <label>Знак ввода команд компилятора:</label>
             <input v-model="options.syntax.commands.trigger" type="text" />
           </div>
+          <div class="flex items-center gap-3">
+            <label>Кавычки:</label>
+            <input v-model="options.quotes" type="text" />
+          </div>
           <div>
             <label>Замена ID персонажей:</label>
             <ul>
