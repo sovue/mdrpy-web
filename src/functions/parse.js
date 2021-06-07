@@ -16,6 +16,25 @@ export default function (ast, options) {
 
   for (line; line < ast.length; line += 1) {
     let { type, children, content: rawContent } = ast[line]
+
+    if (type === 'fence') {
+      // For the fence type we don't
+      // need any general transformations
+      // since it contains pure code
+      rpy += indent(indentLevel)
+
+      rpy += 'python:\n'
+
+      rpy +=
+        rawContent
+          .trim()
+          .split('\n')
+          .map((codeLine) => `${indent(indentLevel + 1)}${codeLine}`)
+          .join('\n') + '\n'
+
+      continue
+    }
+
     rawContent = trimWords(rawContent)
 
     if (rawContent.startsWith(options.syntax.ignore)) {
