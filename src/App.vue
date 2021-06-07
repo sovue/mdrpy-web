@@ -101,7 +101,7 @@ export default {
   },
   data() {
     return {
-      source: `# День 1\n\nа Привет\n\n- Привет\n\n  с Привет\n\n- Привет, Алиса\n\n  с Привет, Алиса\n\n!nvl\n\n  NVL mode active\n\n!nvlc\n\nCleared nvl content\n\n!adv\n\nADV mode active\n\n\\ "Эта строка НЕ будет обрабатываться и пойдёт в код как есть"\n\n\\ $ print('Python') # Полезно при использовании собственных функций\n\n<!-- В случае со строчным кодом, строчный комментарий должен находится в элементе строчного кода как показано ниже -->\n\n\`set_mode_nvl # Также можно использовать строчный код\`\n\n\`\`\`\nif foo == bar:\n    print('It preserves the code indent')\n\`\`\``,
+      source: `# День 1\n\n!prolog\n\n!day\n\n!sunset\n\n!night\n\nа Привет\n\n- Привет\n\n  с Привет\n\n- Привет, Алиса\n\n  с Привет, Алиса\n\n!nvl\n\n  NVL mode active\n\n!nvlc\n\nCleared nvl content\n\n!adv\n\nADV mode active\n\n\\ "Эта строка НЕ будет обрабатываться и пойдёт в код как есть"\n\n\\ $ print('Python') # Полезно при использовании собственных функций\n\n<!-- В случае со строчным кодом, строчный комментарий должен находится в элементе строчного кода как показано ниже -->\n\n\`set_mode_nvl # Также можно использовать строчный код\`\n\n\`\`\`\nif foo == bar:\n    print('It preserves the code indent')\n\`\`\``,
       rpy: '',
       indentLevel: 0,
       options: {
@@ -114,6 +114,10 @@ export default {
             adv: 'adv',
             nvl: 'nvl',
             nvlClear: 'nvlc',
+            prologTime: 'prolog',
+            dayTime: 'day',
+            sunsetTime: 'sunset',
+            nightTime: 'night',
           },
         },
         characters: {
