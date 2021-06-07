@@ -64,25 +64,25 @@ export default function (ast, options) {
                 const cmd = content.slice(1)
 
                 switch (cmd) {
-                  case 'nvl': {
+                  case options.syntax.commands.nvl: {
                     rpy += '$ set_mode_nvl()'
 
                     break
                   }
-                  case 'nvlc': {
+                  case options.syntax.commands.nvlClear: {
                     rpy += `nvl clear`
 
                     break
                   }
-                  case 'adv': {
+                  case options.syntax.commands.adv: {
                     rpy += '$ set_mode_adv()'
 
                     break
                   }
                 }
               } else {
-                let [id, ...text] = content.split(' ')
-                text = text.join(' ').trim() // Limit occurence to only first ' - '
+                let [id, ...text] = content.split(options.characterDelim)
+                text = text.join(options.characterDelim).trim() // Limit occurence to only first ' - '
 
                 const charKeys = Object.keys(options.characters)
 
