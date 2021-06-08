@@ -32,7 +32,7 @@
       class="default-theme py-5 px-3 h-80vh"
       @resize="configureEditorSize"
     >
-      <pane min-size="40" size="50">
+      <pane min-size="50" size="50">
         <MonacoEditor
           ref="editor"
           class="w-full h-full"
