@@ -76,7 +76,7 @@ import MdIt from 'markdown-it'
 import Prism from 'vue-prism-component'
 import MonacoEditor from 'vue-monaco'
 import { Splitpanes, Pane } from 'splitpanes'
-import { useStorage } from '@vueuse/core'
+// import { useStorage } from '@vueuse/core'
 
 import parse from './functions/parse'
 
@@ -94,10 +94,10 @@ export default {
   },
   data() {
     return {
-      source: `# День 1\n\nа Привет\n\n- Привет\n\n  с Привет\n\n- Привет, Алиса | True # Доступны условные выборы\n\n  с Привет, Алиса\n\n\\ "Эта строка НЕ будет обрабатываться и пойдёт в код как есть"\n\n\\ $ print('Python') # Полезно при использовании собственных функций\n\n<!-- В случае со строчным кодом, строчный комментарий должен находится в элементе строчного кода как показано ниже -->\n\n\`set_mode_nvl # Также можно использовать строчный код\`\n\n\`\`\`\nif foo == bar:\n    print('It preserves the code indent')\n\`\`\`\n\n`,
+      source: `# День 1\n\nа - Привет\n\n- Привет\n\n  с - Привет\n\n- Привет, Алиса | True # Доступны условные выборы\n\n  с - Привет, Алиса\n\n\\ "Эта строка НЕ будет обрабатываться и пойдёт в код как есть"\n\n\\ $ print('Python') # Полезно при использовании собственных функций\n\n<!-- В случае со строчным кодом, строчный комментарий должен находится в элементе строчного кода как показано ниже -->\n\n\`set_mode_nvl # Также можно использовать строчный код\`\n\n\`\`\`\nif foo == bar:\n    print('It preserves the code indent')\n\`\`\`\n\n`,
       rpy: '',
       options: {
-        characterDelim: ' ',
+        characterDelim: ' - ',
         syntax: {
           ignore: '\\',
         },
@@ -109,6 +109,8 @@ export default {
           sh: 'ш',
           us: 'у',
           un: 'л',
+          mi: 'м',
+          mz: 'ж',
         },
       },
     }
@@ -127,7 +129,7 @@ export default {
     },
   },
   async created() {
-    this.options = useStorage('options', this.options).value
+    // this.options = useStorage('options', this.options).value
     this.parse()
   },
   methods: {
