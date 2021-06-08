@@ -12,14 +12,6 @@
             <label>Знак игнорирования строки:</label>
             <input v-model="options.syntax.ignore" type="text" />
           </div>
-          <div class="flex items-center gap-3">
-            <label>Знак ввода команд компилятора:</label>
-            <input v-model="options.syntax.commands.trigger" type="text" />
-          </div>
-          <div class="flex items-center gap-3">
-            <label>Кавычки:</label>
-            <input v-model="options.quotes" type="text" />
-          </div>
           <div>
             <label>Замена ID персонажей:</label>
             <ul>
@@ -101,22 +93,13 @@ export default {
   },
   data() {
     return {
-      source: `# День 1\n\n!time prolog\n\n!time day\n\n!time sunset\n\n!time night\n\nа Привет\n\n- Привет\n\n  с Привет\n\n- Привет, Алиса | True # Доступны условные выборы\n\n  с Привет, Алиса\n\n!nvl\n\n  NVL mode active\n\n!nvlc\n\nCleared nvl content\n\n!adv\n\nADV mode active\n\n\\ "Эта строка НЕ будет обрабатываться и пойдёт в код как есть"\n\n\\ $ print('Python') # Полезно при использовании собственных функций\n\n<!-- В случае со строчным кодом, строчный комментарий должен находится в элементе строчного кода как показано ниже -->\n\n\`set_mode_nvl # Также можно использовать строчный код\`\n\n\`\`\`\nif foo == bar:\n    print('It preserves the code indent')\n\`\`\`\n\n!monitor\n\n!monitor un`,
+      source: `# День 1\n\nа Привет\n\n- Привет\n\n  с Привет\n\n- Привет, Алиса | True # Доступны условные выборы\n\n  с Привет, Алиса\n\n\\ "Эта строка НЕ будет обрабатываться и пойдёт в код как есть"\n\n\\ $ print('Python') # Полезно при использовании собственных функций\n\n<!-- В случае со строчным кодом, строчный комментарий должен находится в элементе строчного кода как показано ниже -->\n\n\`set_mode_nvl # Также можно использовать строчный код\`\n\n\`\`\`\nif foo == bar:\n    print('It preserves the code indent')\n\`\`\`\n\n`,
       rpy: '',
       indentLevel: 0,
       options: {
         characterDelim: ' ',
-        quotes: '"',
         syntax: {
           ignore: '\\',
-          commands: {
-            trigger: '!',
-            adv: 'adv',
-            nvl: 'nvl',
-            nvlClear: 'nvlc',
-            time: 'time',
-            backdropMonitor: 'monitor',
-          },
         },
         characters: {
           mt: 'од',

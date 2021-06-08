@@ -3,7 +3,6 @@ import CyrillicToTranslit from 'cyrillic-to-translit-js'
 import trimWords from './utils/trimWords'
 import indent from './utils/indent'
 import exInlineComments from './utils/extractInlineComments'
-import getCmd from './utils/getCmd'
 
 const translit = new CyrillicToTranslit({
   preset: 'ru',
@@ -61,85 +60,37 @@ export default function (ast, options) {
 
           switch (child.type) {
             case 'text': {
-              content = content.replace(
-                new RegExp(`${options.quotes}`, 'g'),
-                `\\${options.quotes}`
-              )
+              content = content.replace(new RegExp('"', 'g'), '\\"')
 
-              if (content.startsWith(options.syntax.commands.trigger)) {
-                const [cmd, cmdOptions] = getCmd(content)
+              let [id, ...text] = content.split(options.characterDelim)
+              text = text.join(options.characterDelim).trim() // Limit occurence to only first delim
 
-                switch (cmd) {
-                  case options.syntax.commands.nvl: {
-                    rpy += '$ set_mode_nvl()'
+              const charKeys = Object.keys(options.characters)
 
-                    break
-                  }
-                  case options.syntax.commands.nvlClear: {
-                    rpy += `nvl clear`
+              // If might have character id and text
+              if (text) {
+                id = id.toLowerCase()
 
-                    break
-                  }
-                  case options.syntax.commands.adv: {
-                    rpy += '$ set_mode_adv()'
+                // If has known character id
+                // return ${id} "${text}"
+                if (
+                  charKeys
+                    .concat(Object.values(options.characters))
+                    .includes(id)
+                ) {
+                  const foundId =
+                    charKeys.find((item) => options.characters[item] === id) ||
+                    id
 
-                    break
-                  }
-                  case options.syntax.commands.time: {
-                    const [time] = cmdOptions
-
-                    if (['prolog', 'day', 'sunset', 'night'].includes(time)) {
-                      rpy += `$ ${time}_time()`
-                    }
-
-                    break
-                  }
-                  case options.syntax.commands.backdropMonitor: {
-                    const [monitor] = cmdOptions
-
-                    if (['un', 'us', 'sl', 'dv', undefined].includes(monitor)) {
-                      rpy += `$ backdrop = ${options.quotes}${
-                        monitor || 'days'
-                      }${options.quotes}`
-                    } else {
-                      continue
-                    }
-
-                    break
-                  }
+                  rpy += `${foundId} "${text}"`
+                }
+                // If doesn't have known charater id
+                // return full content
+                else {
+                  rpy += `"${content}"`
                 }
               } else {
-                let [id, ...text] = content.split(options.characterDelim)
-                text = text.join(options.characterDelim).trim() // Limit occurence to only first delim
-
-                const charKeys = Object.keys(options.characters)
-
-                // If might have character id and text
-                if (text) {
-                  id = id.toLowerCase()
-
-                  // If has known character id
-                  // return ${id} "${text}"
-                  if (
-                    charKeys
-                      .concat(Object.values(options.characters))
-                      .includes(id)
-                  ) {
-                    const foundId =
-                      charKeys.find(
-                        (item) => options.characters[item] === id
-                      ) || id
-
-                    rpy += `${foundId} ${options.quotes}${text}${options.quotes}`
-                  }
-                  // If doesn't have known charater id
-                  // return full content
-                  else {
-                    rpy += `${options.quotes}${content}${options.quotes}`
-                  }
-                } else {
-                  rpy += `${options.quotes}${content}${options.quotes}`
-                }
+                rpy += `"${content}"`
               }
 
               break
@@ -198,9 +149,9 @@ export default function (ast, options) {
             conditionalChoice = ` if ${conditionalChoiceSplit.pop().trim()}`
             choiceContent = conditionalChoiceSplit.join('|').trim()
           }
-          rpy += `${options.quotes}${choiceContent}${
-            options.quotes
-          }${conditionalChoice}:${inlineComment ? ` # ${inlineComment}` : ''}\n`
+          rpy += `"${choiceContent}"${conditionalChoice}:${
+            inlineComment ? ` # ${inlineComment}` : ''
+          }\n`
 
           indentLevel += 1
 
