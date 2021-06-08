@@ -191,9 +191,16 @@ export default function (ast, options) {
           let [choiceContent, inlineComment] = exInlineComments(
             ast[(line += 2)].content
           )
-          rpy += `${options.quotes}${choiceContent}${options.quotes}:${
-            inlineComment ? ` # ${inlineComment}` : ''
-          }\n`
+          // Extract conditional choice character
+          const conditionalChoiceSplit = choiceContent.split('|')
+          let conditionalChoice = ''
+          if (conditionalChoiceSplit.length > 1) {
+            conditionalChoice = ` if ${conditionalChoiceSplit.pop().trim()}`
+            choiceContent = conditionalChoiceSplit.join('|').trim()
+          }
+          rpy += `${options.quotes}${choiceContent}${
+            options.quotes
+          }${conditionalChoice}:${inlineComment ? ` # ${inlineComment}` : ''}\n`
 
           indentLevel += 1
 
