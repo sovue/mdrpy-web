@@ -148,6 +148,8 @@ export default {
   },
   methods: {
     configureEditorSize() {
+      // Since Monaco editor listens to resize
+      // event, fire them manually when needed
       window.dispatchEvent(new Event('resize'))
     },
     parse() {
