@@ -1,16 +1,24 @@
 <template>
   <div id="app">
-    <div class="py-5 px-3 text-center">
-      <details class="cursor-pointer">
+    <div class="py-5 px-3">
+      <details class="text-center cursor-pointer">
         <summary>Настройки</summary>
-        <div class="flex items-center justify-around flex-wrap py-2 px-1 gap-3">
-          <div class="flex items-center gap-3">
-            <label>Разделитель реплик персонажей:</label>
-            <input v-model="options.characterDelim" type="text" />
-          </div>
-          <div class="flex items-center gap-3">
-            <label>Знак игнорирования строки:</label>
-            <input v-model="options.syntax.ignore" type="text" />
+        <div class="flex flex-col items-center justify-center">
+          <div
+            class="flex items-center justify-around flex-wrap py-2 px-1 gap-3"
+          >
+            <div class="flex items-center gap-3">
+              <label>Разделитель реплик персонажей:</label>
+              <input v-model="options.characterDelim" type="text" />
+            </div>
+            <div
+              v-for="(opt, index) in Object.keys(options.syntax)"
+              :key="index"
+              class="flex items-center gap-3"
+            >
+              <label>{{ opt }}:</label>
+              <input v-model="options.syntax[opt]" type="text" />
+            </div>
           </div>
           <div>
             <label>Замена ID персонажей:</label>
@@ -18,7 +26,7 @@
               <li
                 v-for="(character, index) in Object.keys(options.characters)"
                 :key="index"
-                class="flex items-center justify-between gap-1"
+                class="flex items-center justify-between gap-3"
               >
                 <label>{{ character }}:</label>
                 <input v-model="options.characters[character]" type="text" />
