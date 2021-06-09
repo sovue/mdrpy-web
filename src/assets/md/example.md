@@ -1,42 +1,42 @@
-# День 1
+# Day 1
 
 % some_scene
 
-= Den_2
+= Day_2
 
 # some_scene
 
-а - Привет
+a - Hi
 
-- Выбор 1
+- Choice 1
 
-  с - Test
+  s - Hi from choice 1
 
-- Выбор 2
+- Choice 2
 
-  dv - Test
+  a - Hi from choice 2
 
-Продолжение
+Story continues
 
-# День 2
+# Day 2
 
-- Привет
+- Hi
 
-  с - Привет
+  s - Hi
 
-- Привет, Алиса | True # Доступны условные выборы
+- Hi, Alice | True # Supports conditional choices
 
-  с - Привет, Алиса
+  с - Hi, Alice
 
-\ "Эта строка НЕ будет обрабатываться и пойдёт в код как есть"
+\ "This line will NOT be transpiled by parser and will go into the code as is"
 
-\ $ print('Python') # Полезно при использовании собственных функций
+\ $ print('Python') # Useful when you need to perform some custom operation
 
-<!-- В случае со строчным кодом, строчный комментарий должен находится в элементе строчного кода как показано ниже -->
+<!-- If using inline code, inline comment must be inside the inline code as showed below -->
 
-`set_mode_nvl # Также можно использовать строчный код`
+`set_mode_nvl # Inline code with inline comment`
 
 ```
 if foo == bar:
-    print('It preserves the code indent')
+    print('It preserves the original code indent')
 ```

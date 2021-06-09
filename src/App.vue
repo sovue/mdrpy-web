@@ -2,13 +2,13 @@
   <div id="app">
     <div class="absolute top-0 left-0 px-2 py-1 bg-light-500 z-10">
       <details class="text-center">
-        <summary class="cursor-pointer">Настройки</summary>
+        <summary class="cursor-pointer">Options</summary>
         <div class="flex flex-col items-center justify-center">
           <div
             class="flex items-center justify-around flex-wrap py-2 px-1 gap-3"
           >
             <div class="flex items-center gap-3">
-              <label>Разделитель реплик персонажей:</label>
+              <label>Character replies delim:</label>
               <input v-model="options.characterDelim" type="text" />
             </div>
             <div
@@ -21,7 +21,7 @@
             </div>
           </div>
           <div>
-            <label>Замена ID персонажей:</label>
+            <label>Characters IDs overwrites:</label>
             <ul>
               <li
                 v-for="(character, index) in Object.keys(options.characters)"
@@ -124,15 +124,15 @@ export default {
           jump: '=',
         },
         characters: {
-          mt: 'од',
-          me: 'с',
-          dv: 'а',
-          sl: 'сл',
-          sh: 'ш',
-          us: 'у',
-          un: 'л',
-          mi: 'м',
-          mz: 'ж',
+          mt: 'od',
+          me: 's',
+          dv: 'a',
+          sl: 'sl',
+          sh: 'sh',
+          us: 'us',
+          un: 'l',
+          mi: 'm',
+          mz: 'zh',
         },
       },
       isMobile,
