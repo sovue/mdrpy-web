@@ -20,6 +20,7 @@ specifiers:
   monaco-editor-webpack-plugin: ^3.1.0
   prettier: ^2.2.1
   prismjs: ^1.23.0
+  raw-loader: ^4.0.2
   sass: ^1.26.5
   sass-loader: ^8.0.2
   splitpanes: ^2.3.6
@@ -46,7 +47,7 @@ devDependencies:
   '@types/markdown-it': 12.0.2
   '@vue/cli-plugin-babel': 4.5.13_ff590b0de5aca690f3f4042d35869c4a
   '@vue/cli-plugin-eslint': 4.5.13_a58cf9e4d577795b8c257bee96d49483
-  '@vue/cli-service': 4.5.13_0f25d1aa8415e98c3e62a4178f3c555d
+  '@vue/cli-service': 4.5.13_04a38da95ae00b2d02f92a2e9efe395b
   '@vue/eslint-config-prettier': 6.0.0_3bab2c9ee24879a838b89d7e1f3f1e41
   babel-eslint: 10.1.0_eslint@6.8.0
   eslint: 6.8.0
@@ -55,6 +56,7 @@ devDependencies:
   eslint-plugin-vue: 6.2.2_eslint@6.8.0
   monaco-editor-webpack-plugin: 3.1.0_monaco-editor@0.24.0
   prettier: 2.3.1
+  raw-loader: 4.0.2
   sass: 1.34.1
   sass-loader: 8.0.2_sass@1.34.1
   vue-cli-plugin-windicss: 0.3.0_@vue+cli-service@4.5.13
@@ -1545,7 +1547,7 @@ packages:
     dependencies:
       '@babel/core': 7.14.3
       '@vue/babel-preset-app': 4.5.13_vue@2.6.14
-      '@vue/cli-service': 4.5.13_0f25d1aa8415e98c3e62a4178f3c555d
+      '@vue/cli-service': 4.5.13_04a38da95ae00b2d02f92a2e9efe395b
       '@vue/cli-shared-utils': 4.5.13
       babel-loader: 8.2.2_105470dfa535e5f605a4a54ef7d81e87
       cache-loader: 4.1.0_webpack@4.46.0
@@ -1564,7 +1566,7 @@ packages:
       '@vue/cli-service': ^3.0.0 || ^4.0.0-0
       eslint: '>= 1.6.0 < 7.0.0'
     dependencies:
-      '@vue/cli-service': 4.5.13_0f25d1aa8415e98c3e62a4178f3c555d
+      '@vue/cli-service': 4.5.13_04a38da95ae00b2d02f92a2e9efe395b
       '@vue/cli-shared-utils': 4.5.13
       eslint: 6.8.0
       eslint-loader: 2.2.1_eslint@6.8.0+webpack@4.46.0
@@ -1582,7 +1584,7 @@ packages:
     peerDependencies:
       '@vue/cli-service': ^3.0.0 || ^4.0.0-0
     dependencies:
-      '@vue/cli-service': 4.5.13_0f25d1aa8415e98c3e62a4178f3c555d
+      '@vue/cli-service': 4.5.13_04a38da95ae00b2d02f92a2e9efe395b
       '@vue/cli-shared-utils': 4.5.13
     dev: true
 
@@ -1591,10 +1593,10 @@ packages:
     peerDependencies:
       '@vue/cli-service': ^3.0.0 || ^4.0.0-0
     dependencies:
-      '@vue/cli-service': 4.5.13_0f25d1aa8415e98c3e62a4178f3c555d
+      '@vue/cli-service': 4.5.13_04a38da95ae00b2d02f92a2e9efe395b
     dev: true
 
-  /@vue/cli-service/4.5.13_0f25d1aa8415e98c3e62a4178f3c555d:
+  /@vue/cli-service/4.5.13_04a38da95ae00b2d02f92a2e9efe395b:
     resolution: {integrity: sha512-CKAZN4iokMMsaUyJRU22oUAz3oS/X9sVBSKAF2/shFBV5xh3jqAlKl8OXZYz4cXGFLA6djNuYrniuLAo7Ku97A==}
     engines: {node: '>=8'}
     hasBin: true
@@ -1666,6 +1668,7 @@ packages:
       pnp-webpack-plugin: 1.6.4
       portfinder: 1.0.28
       postcss-loader: 3.0.0
+      raw-loader: 4.0.2
       sass-loader: 8.0.2_sass@1.34.1
       ssri: 8.0.1
       terser-webpack-plugin: 1.4.5_webpack@4.46.0
@@ -7232,6 +7235,16 @@ packages:
       unpipe: 1.0.0
     dev: true
 
+  /raw-loader/4.0.2:
+    resolution: {integrity: sha512-ZnScIV3ag9A4wPX/ZayxL/jZH+euYb6FcUinPcgiQW0+UBtEv0O6Q3lGd3cqJ+GHH+rksEv3Pj99oxJ3u3VIKA==}
+    engines: {node: '>= 10.13.0'}
+    peerDependencies:
+      webpack: ^4.0.0 || ^5.0.0
+    dependencies:
+      loader-utils: 2.0.0
+      schema-utils: 3.0.0
+    dev: true
+
   /read-only-stream/2.0.0:
     resolution: {integrity: sha1-JyT9aoET1zdkrCiNQ4YnDB2/F/A=}
     dependencies:
@@ -7591,6 +7604,15 @@ packages:
   /schema-utils/2.7.1:
     resolution: {integrity: sha512-SHiNtMOUGWBQJwzISiVYKu82GiV4QYGePp3odlY1tuKO7gPtphAT5R/py0fA6xtbgLL/RvtJZnU9b8s0F1q0Xg==}
     engines: {node: '>= 8.9.0'}
+    dependencies:
+      '@types/json-schema': 7.0.7
+      ajv: 6.12.6
+      ajv-keywords: 3.5.2_ajv@6.12.6
+    dev: true
+
+  /schema-utils/3.0.0:
+    resolution: {integrity: sha512-6D82/xSzO094ajanoOSbe4YvXWMfn2A//8Y1+MUqFAJul5Bs+yn36xbK9OtNDcRVSBJ9jjeoXftM6CfztsjOAA==}
+    engines: {node: '>= 10.13.0'}
     dependencies:
       '@types/json-schema': 7.0.7
       ajv: 6.12.6
@@ -8726,7 +8748,7 @@ packages:
     peerDependencies:
       '@vue/cli-service': ^3.0.0 || ^4.0.0-0
     dependencies:
-      '@vue/cli-service': 4.5.13_0f25d1aa8415e98c3e62a4178f3c555d
+      '@vue/cli-service': 4.5.13_04a38da95ae00b2d02f92a2e9efe395b
       defu: 4.0.1
       windicss-webpack-plugin: 0.6.2
     transitivePeerDependencies:
