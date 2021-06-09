@@ -40,10 +40,10 @@
           @change="parse"
           language="markdown"
           :options="{
-            theme: 'vs-dark',
+            // theme: 'vs-dark',
             automaticLayout: true,
             lightbulb: { enabled: false },
-            minimap: { enabled: false },
+            // minimap: { enabled: false },
             renderWhitespace: 'boundary',
             renderFinalNewline: true,
             renderIndentGuides: true,
@@ -51,7 +51,7 @@
             copyWithSyntaxHighlighting: false,
             cursorBlinking: 'smooth',
             dragAndDrop: false,
-            fontFamily: 'JetBrains Mono',
+            fontFamily: 'JetBrains Mono, monospace',
             fontSize: 16,
             fontWeight: 300,
             letterSpacing: 1.5,
@@ -102,6 +102,8 @@ export default {
         characterDelim: ' - ',
         syntax: {
           ignore: '\\',
+          call: '%',
+          jump: '=',
         },
         characters: {
           mt: 'од',

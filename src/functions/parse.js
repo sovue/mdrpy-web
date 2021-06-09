@@ -60,6 +60,22 @@ export default function (ast, options) {
 
           switch (child.type) {
             case 'text': {
+              // Handle jumps on top because
+              // they dont't need any transforms
+              if (content.startsWith(options.syntax.call)) {
+                rpy += `call ${content
+                  .slice(options.syntax.call.length)
+                  .trim()}`
+
+                break
+              } else if (content.startsWith(options.syntax.jump)) {
+                rpy += `jump ${content
+                  .slice(options.syntax.jump.length)
+                  .trim()}`
+
+                break
+              }
+
               content = content.replace(new RegExp('"', 'g'), '\\"')
 
               let [id, ...text] = content.split(options.characterDelim)
@@ -118,7 +134,7 @@ export default function (ast, options) {
 
           rpy += '\n'
 
-          indentLevel += 1
+          indentLevel = 1
 
           break
         }
