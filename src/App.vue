@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <div class="py-5 px-3">
-      <details class="text-center cursor-pointer">
-        <summary>Настройки</summary>
+    <div class="absolute top-0 left-0 px-2 py-1 bg-light-500 z-10">
+      <details class="text-center">
+        <summary class="cursor-pointer">Настройки</summary>
         <div class="flex flex-col items-center justify-center">
           <div
             class="flex items-center justify-around flex-wrap py-2 px-1 gap-3"
@@ -37,21 +37,29 @@
       </details>
     </div>
     <splitpanes
-      class="default-theme py-5 px-3 h-80vh"
+      class="default-theme pt-30px pt-10 pb-5 px-3 h-full"
       @resize="configureEditorSize"
+      :horizontal="isMobile"
     >
-      <pane min-size="50" size="50">
+      <pane size="50">
+        <textarea
+          v-if="isMobile"
+          v-model="source"
+          @input="parse"
+          class="w-full h-full"
+        />
         <MonacoEditor
-          ref="editor"
+          v-else
           class="w-full h-full"
           v-model="source"
           @change="parse"
           language="markdown"
           :options="{
-            // theme: 'vs-dark',
+            theme: 'vs-dark',
             automaticLayout: true,
             lightbulb: { enabled: false },
-            // minimap: { enabled: false },
+            minimap: { enabled: false },
+            quickSuggestions: false,
             renderWhitespace: 'boundary',
             renderFinalNewline: true,
             renderIndentGuides: true,
@@ -103,6 +111,8 @@ export default {
     Pane,
   },
   data() {
+    const isMobile = /Mobi|Android/i.test(navigator.userAgent)
+
     return {
       source: example,
       rpy: '',
@@ -125,6 +135,7 @@ export default {
           mz: 'ж',
         },
       },
+      isMobile,
     }
   },
   watch: {

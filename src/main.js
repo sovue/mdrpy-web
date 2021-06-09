@@ -6,6 +6,8 @@ import 'prismjs'
 import 'prismjs/themes/prism.css'
 import 'prismjs/components/prism-renpy'
 
+import './scss/main.scss'
+
 Vue.config.productionTip = false
 
 new Vue({
