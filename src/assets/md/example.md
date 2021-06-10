@@ -26,11 +26,13 @@ Story continues
 
 - Hi, Alice | True # Supports conditional choices
 
-  с - Hi, Alice
+  s - Hi, Alice
 
 \ "This line will NOT be transpiled by parser and will go into the code as is"
 
-\ $ print('Python') # Useful when you need to perform some custom operation
+<!-- Useful when you need to perform some custom operation or that is not supported by parser -->
+
+\ $ print('Python')
 
 <!-- If using inline code, inline comment must be inside the inline code as showed below -->
 
@@ -40,3 +42,31 @@ Story continues
 if foo == bar:
     print('It preserves the original code indent')
 ```
+
+# Day_3
+
+<!-- If statements are created like choices -->
+
+<!-- Just prepend choice content with: -->
+
+<!-- `?` for `if` statement -->
+
+<!-- `??` for `elif` statement -->
+
+<!-- `???` for `else` statement -->
+
+- ? test_condition
+
+  Condition content
+
+  - Choices inside if condition
+
+    Choice content
+
+- ?? elif_condition # Auto elif
+
+  Elif condition content
+
+- ??? else_condition # Auto else
+
+  else condition content

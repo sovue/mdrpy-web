@@ -140,11 +140,13 @@ export default function (ast, options) {
         }
 
         case 'bullet_list_open': {
-          rpy += indent(indentLevel)
+          if (!ast[line + 3].content.startsWith('?')) {
+            rpy += indent(indentLevel)
 
-          rpy += 'menu:\n'
+            rpy += 'menu:\n'
 
-          indentLevel += 1
+            indentLevel += 1
+          }
 
           break
         }
@@ -158,16 +160,27 @@ export default function (ast, options) {
           let [choiceContent, inlineComment] = exInlineComments(
             ast[(line += 2)].content
           )
+          choiceContent = choiceContent.trim()
+          console.log(choiceContent)
           // Extract conditional choice character
-          const conditionalChoiceSplit = choiceContent.split('|')
-          let conditionalChoice = ''
-          if (conditionalChoiceSplit.length > 1) {
-            conditionalChoice = ` if ${conditionalChoiceSplit.pop().trim()}`
-            choiceContent = conditionalChoiceSplit.join('|').trim()
+          if (choiceContent.startsWith('???')) {
+            rpy += `else ${choiceContent.slice(3).trim()}:`
+          } else if (choiceContent.startsWith('??')) {
+            rpy += `elif ${choiceContent.slice(2).trim()}:`
+          } else if (choiceContent.startsWith('?')) {
+            rpy += `if ${choiceContent.slice(1).trim()}:`
+          } else {
+            const conditionalChoiceSplit = choiceContent.split('|')
+            let conditionalChoice = ''
+            if (conditionalChoiceSplit.length > 1) {
+              conditionalChoice = ` if ${conditionalChoiceSplit.pop().trim()}`
+              choiceContent = conditionalChoiceSplit.join('|').trim()
+            }
+
+            rpy += `"${choiceContent}"${conditionalChoice}:`
           }
-          rpy += `"${choiceContent}"${conditionalChoice}:${
-            inlineComment ? ` # ${inlineComment}` : ''
-          }\n`
+
+          rpy += `${inlineComment ? ` # ${inlineComment}` : ''}\n`
 
           indentLevel += 1
 
