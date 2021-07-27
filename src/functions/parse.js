@@ -161,10 +161,9 @@ export default function (ast, options) {
             ast[(line += 2)].content
           )
           choiceContent = choiceContent.trim()
-          console.log(choiceContent)
           // Extract conditional choice character
           if (choiceContent.startsWith('???')) {
-            rpy += `else ${choiceContent.slice(3).trim()}:`
+            rpy += `else:`
           } else if (choiceContent.startsWith('??')) {
             rpy += `elif ${choiceContent.slice(2).trim()}:`
           } else if (choiceContent.startsWith('?')) {
