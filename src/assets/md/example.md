@@ -6,67 +6,67 @@
 
 # some_scene
 
-a - Hi
+a - Привет!
 
-- Choice 1
+- Первый выбор.
 
-  s - Hi from choice 1
+  s - Ты выбрал первый вариант!
 
-- Choice 2
+- Второй выбор.
 
-  a - Hi from choice 2
+  a - Ты выбрал второй вариант!
 
-Story continues
+Продолжение истории.
 
 # Day 2
 
-- Hi
+- Привет!
 
-  s - Hi
+  s - Привет.
 
-- Hi, Alice | True # Supports conditional choices
+- Привет, Алиса! | some_variable  == True # Поддерживаются выборы с неким условием в виде переменной.
 
-  s - Hi, Alice
+  s - Привет, Алиса!
 
-\ "This line will NOT be transpiled by parser and will go into the code as is"
+\ "Эта строка не будет 'конвертироваться' парсером и пойдёт в код «как есть»."
 
-<!-- Useful when you need to perform some custom operation or that is not supported by parser -->
+<!-- Полезно когда необходимо выполнить спец. операцию с кодом (например, использование кастомной функции) или задействовать код, который не поддерживается парсером в данный момент. -->
 
 \ $ print('Python')
 
-<!-- If using inline code, inline comment must be inside the inline code as showed below -->
+<!-- При использовании встроенного кода, комментарий для кода должен находиться "внутри", как показано ниже. -->
 
-`set_mode_nvl # Inline code with inline comment`
+`set_mode_nvl # Встроенный код с комментарием`
 
 ```
 if foo == bar:
-    print('It preserves the original code indent')
+    print('Тройные кавычки для сохранения отступов в встроенном коде')
 ```
 
 # Day_3
 
-<!-- If statements are created like choices -->
+<!-- Проверка на значение переменной/переменных -->
 
-<!-- Just prepend choice content with: -->
+<!-- По синтаксису слегка схож с написанием выборов. -->
 
-<!-- `?` for `if` statement -->
+<!-- Знак `?` для `if` проверки -->
 
-<!-- `??` for `elif` statement -->
+<!-- Знак `??` для `elif` проверки -->
 
-<!-- `???` for `else` statement -->
+<!-- Знак `???` для `else` проверки -->
 
-- ? test_condition
+- ? test_variable
 
-  Condition content
+  Некие действия, если у переменной значение True
 
-  - Choices inside if condition
+  - Выбор внутри проверки на переменную test_variable
 
-    Choice content
+    Какой-то текст внутри выбора.
 
-- ?? elif_condition # Auto elif
+- ?? another_variable # Авто elif-проверка
 
-  Elif condition content
+  Какая-то сценка, если выполняется elif проверка
 
-- ??? else_condition # Auto else
+- ??? # Авто else-проверка
 
-  else condition content
+  Какая-то сценка, если выполняется else проверка
