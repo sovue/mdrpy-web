@@ -26,6 +26,16 @@ export default function (ast, options) {
       continue
     }
 
+    if (type === 'blockquote_open') {
+      rpy += indent(indentLevel)
+
+      rpy += `extend `
+
+      indentLevel -= 1
+
+      continue
+    }
+
     if (type === 'fence') {
       // For the fence type we don't
       // need any general transformations
@@ -52,8 +62,6 @@ export default function (ast, options) {
           // Redo everything for child content
           // since it is different from `content`
           ;[content, inlineComment] = exInlineComments(child.content)
-
-          content = content.trim()
 
           rpy += indent(indentLevel)
 
@@ -137,7 +145,9 @@ export default function (ast, options) {
         }
 
         case 'bullet_list_open': {
-          if (!ast[line + 3].content.startsWith('?')) {
+          if (ast[line + 3].content.startsWith('?')) {
+            isConditionalList = true
+          } else {
             rpy += indent(indentLevel)
 
             rpy += 'menu:\n'
@@ -191,6 +201,12 @@ export default function (ast, options) {
 
         case 'bullet_list_close': {
           indentLevel -= 1
+
+          break
+        }
+
+        case 'blockquote_close': {
+          indentLevel += 1
 
           break
         }
