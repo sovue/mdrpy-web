@@ -75,8 +75,6 @@ export default function (ast, options) {
                 break
               }
 
-              content = content.replace(new RegExp('"', 'g'), '\\"')
-
               let [id, ...text] = content.split(options.characterDelim)
               text = text.join(options.characterDelim).trim() // Limit occurrence to only first delim
 
