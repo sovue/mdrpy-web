@@ -14,6 +14,9 @@ export default function (ast, options) {
   let indentLevel = 0
   let rpy = ''
 
+  // Supporting variables
+  let isConditionalList = false
+
   for (line; line < ast.length; line += 1) {
     let { type, children, content: rawContent } = ast[line]
 
@@ -153,6 +156,7 @@ export default function (ast, options) {
             rpy += 'menu:\n'
 
             indentLevel += 1
+            isConditionalList = true
           }
 
           break
@@ -200,7 +204,11 @@ export default function (ast, options) {
         }
 
         case 'bullet_list_close': {
-          indentLevel -= 1
+          if (isConditionalList) {
+            isConditionalList = false
+          } else {
+            indentLevel -= 1
+          }
 
           break
         }
