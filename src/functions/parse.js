@@ -23,13 +23,11 @@ export default function (ast, options) {
       // since it contains pure code
       rpy += indent(indentLevel)
 
-      rpy += 'python:\n'
-
       rpy +=
         rawContent
           .trim()
           .split('\n')
-          .map((codeLine) => `${indent(indentLevel + 1)}${codeLine}`)
+          .map((codeLine) => `${indent(indentLevel)}${codeLine}`)
           .join('\n') + '\n'
 
       continue
