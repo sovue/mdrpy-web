@@ -79,9 +79,7 @@
         />
       </pane>
       <pane size="50" class="overflow-y-auto">
-        <prism language="renpy">
-          {{ rpy }}
-        </prism>
+        <prism language="renpy" :code="rpy" />
       </pane>
     </splitpanes>
   </div>
@@ -91,9 +89,8 @@
 import MdIt from 'markdown-it'
 import Prism from 'vue-prism-component'
 import MonacoEditor from 'vue-monaco'
-import { Splitpanes, Pane } from 'splitpanes'
+import { Pane, Splitpanes } from 'splitpanes'
 // import { useStorage } from '@vueuse/core'
-
 import parse from './functions/parse'
 
 import 'splitpanes/dist/splitpanes.css'
