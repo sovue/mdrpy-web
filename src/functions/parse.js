@@ -17,6 +17,15 @@ export default function (ast, options) {
   for (line; line < ast.length; line += 1) {
     let { type, children, content: rawContent } = ast[line]
 
+    // Should always be on top
+    if (rawContent.startsWith(options.syntax.ignore)) {
+      rpy += indent(indentLevel)
+
+      rpy += `${rawContent.replace(options.syntax.ignore, '').trim()}\n`
+
+      continue
+    }
+
     if (type === 'fence') {
       // For the fence type we don't
       // need any general transformations
@@ -34,14 +43,6 @@ export default function (ast, options) {
     }
 
     rawContent = trimWords(rawContent)
-
-    if (rawContent.startsWith(options.syntax.ignore)) {
-      rpy += indent(indentLevel)
-
-      rpy += `${rawContent.replace(options.syntax.ignore, '').trim()}\n`
-
-      continue
-    }
 
     let [content, inlineComment] = exInlineComments(rawContent)
 
