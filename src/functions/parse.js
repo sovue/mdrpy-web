@@ -61,7 +61,7 @@ export default function (ast, options) {
           switch (child.type) {
             case 'text': {
               // Handle jumps on top because
-              // they dont't need any transforms
+              // they don't need any transforms
               if (content.startsWith(options.syntax.call)) {
                 rpy += `call ${content
                   .slice(options.syntax.call.length)
@@ -79,7 +79,7 @@ export default function (ast, options) {
               content = content.replace(new RegExp('"', 'g'), '\\"')
 
               let [id, ...text] = content.split(options.characterDelim)
-              text = text.join(options.characterDelim).trim() // Limit occurence to only first delim
+              text = text.join(options.characterDelim).trim() // Limit occurrence to only first delim
 
               const charKeys = Object.keys(options.characters)
 
@@ -100,7 +100,7 @@ export default function (ast, options) {
 
                   rpy += `${foundId} "${text}"`
                 }
-                // If doesn't have known charater id
+                // If doesn't have known character id
                 // return full content
                 else {
                   rpy += `"${content}"`
