@@ -2,6 +2,7 @@ import CyrillicToTranslit from 'cyrillic-to-translit-js'
 
 import trimWords from './utils/trimWords'
 import indent from './utils/indent'
+import quotted from './utils/quotted'
 import exInlineComments from './utils/extractInlineComments'
 
 const translit = new CyrillicToTranslit({
@@ -106,15 +107,15 @@ export default function (ast, options) {
                     charKeys.find((item) => options.characters[item] === id) ||
                     id
 
-                  rpy += `${foundId} "${text}"`
+                  rpy += `${foundId} ${quotted(text)}`
                 }
                 // If doesn't have known character id
                 // return full content
                 else {
-                  rpy += `"${content}"`
+                  rpy += `${quotted(content)}`
                 }
               } else {
-                rpy += `"${content}"`
+                rpy += `${quotted(content)}`
               }
 
               break
