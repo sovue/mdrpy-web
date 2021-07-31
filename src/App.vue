@@ -86,18 +86,15 @@
 </template>
 
 <script>
-import MdIt from 'markdown-it'
 import Prism from 'vue-prism-component'
 import MonacoEditor from 'vue-monaco'
 import { Pane, Splitpanes } from 'splitpanes'
 // import { useStorage } from '@vueuse/core'
-import parse from './functions/parse'
+import { parse } from 'mdrpy'
 
 import 'splitpanes/dist/splitpanes.css'
 
 import example from './assets/md/example.md'
-
-const md = new MdIt('commonmark')
 
 export default {
   name: 'App',
@@ -143,11 +140,6 @@ export default {
       },
     },
   },
-  computed: {
-    ast() {
-      return md.parse(this.source, { references: {} })
-    },
-  },
   async created() {
     // this.options = useStorage('options', this.options).value
     this.parse()
@@ -159,7 +151,7 @@ export default {
       window.dispatchEvent(new Event('resize'))
     },
     parse() {
-      this.rpy = parse(this.ast, this.options)
+      this.rpy = parse(this.source)
     },
   },
 }
