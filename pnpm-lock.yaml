@@ -15,7 +15,7 @@ specifiers:
   eslint-config-prettier: ^8.3.0
   eslint-plugin-prettier: ^3.3.1
   eslint-plugin-vue: ^6.2.2
-  mdrpy: ^0.0.3
+  mdrpy: ^0.0.4
   monaco-editor: ^0.24.0
   monaco-editor-webpack-plugin: ^3.1.0
   prettier: ^2.2.1
@@ -35,7 +35,7 @@ dependencies:
   '@vueuse/core': 5.0.1_931b451d88d845be65be8c45542885aa
   core-js: 3.14.0
   cyrillic-to-translit-js: 3.1.0
-  mdrpy: 0.0.3
+  mdrpy: 0.0.4
   monaco-editor: 0.24.0
   prismjs: 1.23.0
   splitpanes: 2.3.6
@@ -5834,8 +5834,8 @@ packages:
     resolution: {integrity: sha512-iV3XNKw06j5Q7mi6h+9vbx23Tv7JkjEVgKHW4pimwyDGWm0OIQntJJ+u1C6mg6mK1EaTv42XQ7w76yuzH7M2cA==}
     dev: true
 
-  /mdrpy/0.0.3:
-    resolution: {integrity: sha512-PadUli4qZQW2FLhBSMv4SLpHnr08dtcRH0RabU5U3+aE9dyKAZBy1qSfidUxao4d1s+PoOl2PoRNeJin0DK8ug==}
+  /mdrpy/0.0.4:
+    resolution: {integrity: sha512-4rkCIb0xi8qkCDrD6YYzDaVZFdg7agJXYEZtCTETZsfEZY1tc2lJ7IYfkF9Mp4sQreNykyO7WwPdg4m+yilcZQ==}
     dependencies:
       cyrillic-to-translit-js: 3.1.0
       markdown-it: 12.1.0
