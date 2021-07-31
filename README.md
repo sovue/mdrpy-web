@@ -1,5 +1,7 @@
 # mdrpy
 
+## Do not use for anything big yet! | Пока ещё не готово к использованию в больших проектах!
+
 [Документация](./docs/index.md)
 
 ## Project setup
